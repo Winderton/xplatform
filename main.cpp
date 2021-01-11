@@ -210,7 +210,7 @@ namespace Core
 	template<>
 	void encode<double>(std::vector<int8_t>* buffer, int16_t* iterator, double value)
 	{
-		int32_t result = *reinterpret_cast<int64_t*>(&value);
+		int64_t result = *reinterpret_cast<int64_t*>(&value);
 		encode<int64_t>(buffer, iterator, result);
 	}
 
