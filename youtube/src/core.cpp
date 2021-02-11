@@ -28,6 +28,14 @@ namespace Core
 			out.close();
 		}
 
+		std::vector<int8_t> load(const char* path)
+		{
+			std::ifstream in(path, std::ios::binary);
+			std::vector<int8_t> result((std::istreambuf_iterator<char>(in)),(std::istreambuf_iterator<char>()));
+			return result;
+		}
+
+
 		void retriveNsave(ObjectModel::Root* r)
 		{
 			int16_t iterator = 0;

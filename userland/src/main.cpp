@@ -8,6 +8,7 @@ using namespace EventSystem;
 using namespace ObjectModel;
 
 
+
 int main(int argc, char** argv)
 {
 	assert(Core::Util::isLittleEndian());
@@ -40,7 +41,7 @@ int main(int argc, char** argv)
 
 #endif
 
-#if 1
+#if 0
 
 	System Foo("Foo");
 	Event* e = new KeyboardEvent('a', true, false);
@@ -53,6 +54,17 @@ int main(int argc, char** argv)
 
 
 #endif
+
+	int16_t foo = 23;
+	Primitive* p = Primitive::create("int16", Type::I16, foo);
+	Core::Util::retriveNsave(p);
+
+
+	std::vector<int8_t> result = Core::Util::load("int16.abc");
+
+	Primitive pp = Primitive::unpack(result);
+
+
 	(void)argc;
 	(void)argv;
 	return 0;
