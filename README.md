@@ -9,7 +9,6 @@
 - [x] Deserialization(Только интегральных типов)
 - [x] Neworking module
 - [x] Event System
-- [ ] 
 _Следующие темы будут варьироваться и меняться в зависимости от вашего желания их увидеть, а от моего - их делать, а предыдущие - будут расширяться и дополняться_
 - [ ] Renderer(Raycaster/OpenGL)
 - [ ] Compression(LZ, Huffman)
