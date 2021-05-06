@@ -11,7 +11,7 @@
 - [x] Event System
 
 _Следующие темы будут варьироваться и меняться в зависимости от вашего желания их увидеть, а от моего - их делать, а предыдущие - будут расширяться и дополняться_
-- [ ] Renderer(Raycaster/OpenGL)
+- [ ] Renderer(Raytracer/Rasterizer)
 - [ ] Compression(LZ, Huffman)
 - [ ] Custom Data Structures(Dynamic Array, Hashtable, Static Array)
 - [ ] Allocators(На канале есть часовое видео по разработке malloc, но оно сюда не вписывается, так как слишком абстрактно)
