@@ -23,6 +23,7 @@
     <ProjectGuid>{2FD0C15F-F9C5-4245-A3E2-702639FAE70F}</ProjectGuid>
     <RootNamespace>EventSystem</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>EventSystem</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

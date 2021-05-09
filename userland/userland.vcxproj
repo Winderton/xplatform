@@ -91,6 +91,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)youtube\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,16 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\event.h" />
-    <ClInclude Include="src\eventsystem.h" />
-    <ClInclude Include="src\keyboardevent.h" />
-    <ClInclude Include="src\system.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\event.cpp" />
-    <ClCompile Include="src\keyboardevent.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\system.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\youtube\youtube.vcxproj">
