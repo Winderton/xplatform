@@ -22,14 +22,15 @@ namespace ObjectModel
 			p->data = new std::vector<int8_t>(sizeof value);
 			p->size += p->data->size();
 			int16_t iterator = 0;
-			Core::template encode<T>(p->data, &iterator, value);
+			Core::template encode<T>(*p->data, iterator, value);
 
 
 			return p;
 		}
 
-		void pack(std::vector<int8_t>*, int16_t*);
-		static Primitive unpack(const std::vector<int8_t>&);
+		void pack(std::vector<int8_t>&, int16_t&);
+		static Primitive unpack(const std::vector<int8_t>&, int16_t&);
+
 		std::vector<int8_t> getData();
 	};
 

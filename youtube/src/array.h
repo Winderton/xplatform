@@ -9,7 +9,7 @@ namespace ObjectModel
 	{
 	private:
 		int8_t type = 0;
-		int32_t count = 0;
+		static int32_t count;
 		std::vector<int8_t>* data = nullptr;
 	private:
 		Array();
@@ -25,7 +25,7 @@ namespace ObjectModel
 			arr->data = new std::vector<int8_t>(sizeof(T) * arr->count);
 			arr->size += value.size() * sizeof T;
 			int16_t iterator = 0;
-			Core::template encode<T>(arr->data, &iterator, value);
+			Core::template encode<T>(*arr->data, iterator, value);
 
 
 			return arr;
@@ -37,17 +37,19 @@ namespace ObjectModel
 		{
 			Array* str = new Array();
 			str->setName(name);
-			str->wrapper = static_cast<int8_t>(Wrapper::STRING);
+			str->wrapper = static_cast<int8_t>(Wrapper::STRING); 
 			str->type = static_cast<int8_t>(type);
 			str->count = value.size();
 			str->data = new std::vector<int8_t>(value.size());
 			str->size += value.size();
 			int16_t iterator = 0;
-			Core::template encode<T>(str->data, &iterator, value);
+			Core::template encode<T>(*str->data, iterator, value);
 
 
 			return str;
 		}
-		void pack(std::vector<int8_t>*, int16_t*);
+		void pack(std::vector<int8_t>&, int16_t&);
+		static Array unpack(std::vector<int8_t>& buffer, int16_t&);
+		static Array unpackS(std::vector<int8_t>& buffer, int16_t&);
 	};
 }

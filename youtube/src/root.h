@@ -10,18 +10,32 @@ namespace ObjectModel
 
 	class LIB Root
 	{
-	protected:
-		std::string name;
-		int16_t nameLength;
+	public:
 		int8_t wrapper;
-		int32_t size;
+	protected:
+		int16_t nameLength;
+		mutable std::string name;
+		mutable int32_t size;
 	public:
-		Root();
+		Root()
+			:
+			name("unknown"),
+			wrapper(0),
+			nameLength(0),
+			size(sizeof nameLength + sizeof wrapper + sizeof size) {}
 	public:
-		int32_t getSize();
-		void setName(std::string);
-		std::string getName();
-		virtual void pack(std::vector<int8_t>*, int16_t*);
+		inline int32_t getSize() const { return size; }
+
+		void setName(std::string name)
+		{
+			this->name = name;
+			nameLength = (int16_t)name.length();
+			size += nameLength;
+		}
+		inline std::string getName() const { return name; }
+
+		virtual void pack(std::vector<int8_t>&, int16_t&) = 0;
+
 	};
 }
 
