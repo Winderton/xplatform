@@ -7,7 +7,7 @@
 using namespace ObjectModel;
 
 
-namespace Test
+namespace TestFrame
 {
 	void testPack()
 	{
@@ -46,6 +46,7 @@ namespace Test
 		Object toPrintObject = Object::unpack(objectFromFile, it);
 		std::cout << "Object: " + toPrintObject.getName() << std::endl;
 		std::cout << "Last object in " << toPrintObject.getName() << ": " << toPrintObject.objects.back().getName() << std::endl;
+		std::cout << "Size of 'Bar' object: " << toPrintObject.findByName("Bar")->getSize() << std::endl;
 	}
 }
 
@@ -53,8 +54,8 @@ int main(int argc, char** argv)
 {
 	assert(Core::Util::isLittleEndian());
 
-	Test::testPack();
-	Test::testUnpack();
+	TestFrame::testPack();
+	TestFrame::testUnpack();
 
 	(void)argc;
 	(void)argv;

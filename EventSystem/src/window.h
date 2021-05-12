@@ -3,6 +3,8 @@
 #include "GLFW/glfw3.h"
 #include <functional>
 #include "event.h"
+
+
 namespace Core
 {
 	class Window final

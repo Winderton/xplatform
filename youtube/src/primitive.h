@@ -20,7 +20,7 @@ namespace ObjectModel
 			p->wrapper = static_cast<int8_t>(Wrapper::PRIMITIVE);
 			p->type = static_cast<int8_t>(type);
 			p->data = new std::vector<int8_t>(sizeof value);
-			p->size += p->data->size();
+			p->size += (int32_t)p->data->size();
 			int16_t iterator = 0;
 			Core::template encode<T>(*p->data, iterator, value);
 

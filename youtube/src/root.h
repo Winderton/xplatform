@@ -13,7 +13,7 @@ namespace ObjectModel
 	public:
 		int8_t wrapper;
 	protected:
-		int16_t nameLength;
+		mutable int16_t nameLength;
 		mutable std::string name;
 		mutable int32_t size;
 	public:
@@ -26,16 +26,16 @@ namespace ObjectModel
 	public:
 		inline int32_t getSize() const { return size; }
 
-		void setName(std::string name)
+		void setName(std::string name) const
 		{
 			this->name = name;
 			nameLength = (int16_t)name.length();
 			size += nameLength;
 		}
+
 		inline std::string getName() const { return name; }
 
 		virtual void pack(std::vector<int8_t>&, int16_t&) = 0;
-
 	};
 }
 

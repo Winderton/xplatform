@@ -21,9 +21,9 @@ namespace ObjectModel
 			arr->setName(name);
 			arr->wrapper = static_cast<int8_t>(Wrapper::ARRAY);
 			arr->type = static_cast<int8_t>(type);
-			arr->count = value.size();
+			arr->count = (int32_t)value.size();
 			arr->data = new std::vector<int8_t>(sizeof(T) * arr->count);
-			arr->size += value.size() * sizeof T;
+			arr->size += (int32_t)(value.size()) * sizeof T;
 			int16_t iterator = 0;
 			Core::template encode<T>(*arr->data, iterator, value);
 
@@ -39,9 +39,9 @@ namespace ObjectModel
 			str->setName(name);
 			str->wrapper = static_cast<int8_t>(Wrapper::STRING); 
 			str->type = static_cast<int8_t>(type);
-			str->count = value.size();
+			str->count = (int32_t)value.size();
 			str->data = new std::vector<int8_t>(value.size());
-			str->size += value.size();
+			str->size += (int32_t)value.size();
 			int16_t iterator = 0;
 			Core::template encode<T>(*str->data, iterator, value);
 

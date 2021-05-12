@@ -10,7 +10,7 @@ namespace Core
 	namespace Util
 	{
 		bool LIB isLittleEndian();
-		void save(const char*, std::vector<int8_t> vector);
+		void save(const char*, std::vector<int8_t>& vector);
 		std::vector<int8_t> LIB load(const char*);
 		void LIB retriveNsave(ObjectModel::Root* r);
 
@@ -23,7 +23,7 @@ namespace Core
 	{
 		for (unsigned i = 0, j = 0; i < sizeof T; i++)
 		{
-			(buffer)[(iterator)++] = (value >> ((sizeof T * 8) - 8) - ((i == 0) ? j : j += 8));
+			buffer[(iterator)++] = (value >> ((sizeof T * 8) - 8) - ((i == 0) ? j : j += 8));
 		}
 	}
 

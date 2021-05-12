@@ -15,7 +15,7 @@ namespace Core
 			return (result.back() == '1') ? true : false;
 		}
 
-		void save(const char* file, std::vector<int8_t> buffer)
+		void save(const char* file, std::vector<int8_t>& buffer)
 		{
 			std::ofstream out;
 			out.open(file);

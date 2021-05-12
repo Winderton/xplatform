@@ -21,11 +21,6 @@ namespace ObjectModel
 		I32,
 		I64,
 
-		U8,
-		U16,
-		U32,
-		U64,
-
 		FLOAT,
 		DOUBLE,
 
@@ -42,6 +37,8 @@ namespace ObjectModel
 		case Type::I16: return sizeof(int16_t); break;
 		case Type::I32: return sizeof(int32_t); break;
 		case Type::I64: return sizeof(int64_t); break;
+		case Type::FLOAT: return sizeof(float); break;
+		case Type::DOUBLE: return sizeof(double); break;
 		}
 	}
 
