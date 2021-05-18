@@ -4,17 +4,17 @@
 #include "window.h"
 
 
-int main()
-{
-	Core::Window& window = Core::Window::getInstanse();
-
-
-	while (!glfwWindowShouldClose(window.getGLFWwindow()))
-	{
-		glfwPollEvents();
-		glfwSwapBuffers(window.getGLFWwindow());
-	}
-
-
-	return 0;
-}
+//int main()
+//{
+//	Core::Window& window = Core::Window::getInstanse();
+//
+//
+//	while (!glfwWindowShouldClose(window.getGLFWwindow()))
+//	{
+//		glfwPollEvents();
+//		glfwSwapBuffers(window.getGLFWwindow());
+//	}
+//
+//
+//	return 0;
+//}
