@@ -1,7 +1,8 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <iostream>
-
+#include <fcntl.h>
+#include <io.h>
 
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -30,6 +31,18 @@ int WINAPI WinMain(
 	_In_ LPSTR lpCmdLine,
 	_In_ int nCmdShow)
 {
+
+	AllocConsole();
+	HANDLE stdHandle;
+	int hConsole;
+	FILE* fp;
+	stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	hConsole = _open_osfhandle((long)stdHandle, _O_TEXT);
+	fp = _fdopen(hConsole, "w");
+
+	freopen_s(&fp, "CONOUT$", "w", stdout);
+
+
 	WNDCLASSEX wc;
 	HWND hwnd;
 	MSG Msg;
