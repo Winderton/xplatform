@@ -1,6 +1,6 @@
 #pragma once
 #include "root.h"
-
+#include <memory>
 
 namespace ObjectModel
 {
@@ -13,9 +13,9 @@ namespace ObjectModel
 		Primitive();
 	public:
 		template<typename T>
-		static Primitive* create(std::string name, Type type, T value)
+		static std::unique_ptr<Primitive> create(std::string name, Type type, T value)
 		{
-			Primitive* p = new Primitive();
+			std::unique_ptr<Primitive> p(new Primitive());
 			p->setName(name);
 			p->wrapper = static_cast<int8_t>(Wrapper::PRIMITIVE);
 			p->type = static_cast<int8_t>(type);

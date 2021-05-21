@@ -12,27 +12,27 @@ namespace TestFrame
 	void testPack()
 	{
 		int32_t foo = 5;
-		Primitive* p = Primitive::create("int32", Type::I32, foo);
-		Primitive* winPrim = Primitive::create("int32", Type::I32, foo);
+		std::unique_ptr<Primitive> p = Primitive::create("int32", Type::I32, foo);
+		std::unique_ptr<Primitive> winPrim = Primitive::create("int32", Type::I32, foo);
 
 		std::vector<int32_t> data{ 1,2,3,4 };
-		Array* arr = Array::createArray("array", Type::I32, data);
+		std::unique_ptr<Array> arr = Array::createArray("array", Type::I32, data);
 
 		std::string name = "name";
-		Array* str = Array::createString("string", Type::I8, name);
+		std::unique_ptr<Array> str = Array::createString("string", Type::I8, name);
 
 
 		Object Test("Foo");
-		Test.addEntity(p);
-		Test.addEntity(arr);
-		Test.addEntity(str);
+		Test.addEntity(p.get());
+		Test.addEntity(arr.get());
+		Test.addEntity(str.get());
 
 		Object Test2("Bar");
-		Test2.addEntity(p);
+		Test2.addEntity(p.get());
 		Test.addEntity(&Test2);
 
 		Object win("Bazz");
-		win.addEntity(winPrim);
+		win.addEntity(winPrim.get());
 		Test.addEntity(&win);
 
 		Core::Util::retriveNsave(&Test);
@@ -46,7 +46,7 @@ namespace TestFrame
 		Object toPrintObject = Object::unpack(objectFromFile, it);
 		std::cout << "Object: " + toPrintObject.getName() << std::endl;
 		std::cout << "Last object in " << toPrintObject.getName() << ": " << toPrintObject.objects.back().getName() << std::endl;
-		std::cout << "Size of 'Bar' object: " << toPrintObject.findByName("Bar")->getSize() << std::endl;
+		std::cout << "Size of 'Bar' object: " << toPrintObject.findByName("Bazz")->getSize() << std::endl;
 	}
 }
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "root.h"
-
+#include <memory>
 
 
 namespace ObjectModel
@@ -11,13 +11,13 @@ namespace ObjectModel
 		int8_t type = 0;
 		static int32_t count;
 		std::vector<int8_t>* data = nullptr;
-	private:
+	public:
 		Array();
 	public:
 		template<typename T>
-		static Array* createArray(std::string name, Type type, std::vector<T> value)
+		static std::unique_ptr<Array> createArray(std::string name, Type type, std::vector<T> value)
 		{
-			Array* arr = new Array();
+			std::unique_ptr<Array> arr = std::make_unique<Array>();
 			arr->setName(name);
 			arr->wrapper = static_cast<int8_t>(Wrapper::ARRAY);
 			arr->type = static_cast<int8_t>(type);
@@ -33,9 +33,9 @@ namespace ObjectModel
 
 
 		template<typename T>
-		static Array* createString(std::string name, Type type, T value)
+		static std::unique_ptr<Array> createString(std::string name, Type type, T value)
 		{
-			Array* str = new Array();
+			std::unique_ptr<Array>str = std::make_unique<Array>();
 			str->setName(name);
 			str->wrapper = static_cast<int8_t>(Wrapper::STRING); 
 			str->type = static_cast<int8_t>(type);

@@ -82,7 +82,7 @@ namespace ObjectModel
 		obj.arrayCount = Core::decode<int16_t>(buffer, it);
 		for (int i = 0; i < obj.arrayCount; i++)
 		{
-			obj.strings.push_back(Array::unpack(buffer, it));
+			obj.arrays.push_back(Array::unpack(buffer, it));
 		}
 
 		obj.stringCount = Core::decode<int16_t>(buffer, it);

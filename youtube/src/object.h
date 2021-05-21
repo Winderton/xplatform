@@ -21,19 +21,11 @@ namespace ObjectModel
 		static Object unpack(std::vector<int8_t>&, int16_t&);
 		Root* findByName(std::string name)
 		{
-			for (Object o : objects)
-			{
-				if (o.getName() == name)
-				{
-					return dynamic_cast<Object*>(&o);
-				}
-			}
-
 			for (Primitive p : primitives)
 			{
 				if (p.getName() == name)
 				{
-					return dynamic_cast<Primitive*>(&p);
+					return static_cast<Primitive*>(&p);
 				}
 			}
 
@@ -41,7 +33,7 @@ namespace ObjectModel
 			{
 				if (arr.getName() == name)
 				{
-					return dynamic_cast<Array*>(&arr);
+					return static_cast<Array*>(&arr);
 				}
 			}
 
@@ -49,11 +41,22 @@ namespace ObjectModel
 			{
 				if (str.getName() == name)
 				{
-					return dynamic_cast<Array*>(&str);
+					return static_cast<Array*>(&str);
+				}
+			}
+
+			for (Object o : objects)
+			{
+				if (o.getName() == name)
+				{
+					return static_cast<Object*>(&o);
 				}
 			}
 
 			std::cout << "no as such" << std::endl;
+			__asm {
+				int 3
+			}
 			return new Object("SYSTEM:empty");
 
 		}
