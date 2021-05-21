@@ -43,33 +43,28 @@ int WINAPI WinMain(
 	freopen_s(&fp, "CONOUT$", "w", stdout);
 
 
-	WNDCLASSEX wc;
+	WNDCLASSEX wc = {};
 	HWND hwnd;
 	MSG Msg;
 
 	wc.cbSize = sizeof(WNDCLASSEX);
-	wc.style = 0;
 	wc.lpfnWndProc = WndProc;
-	wc.cbClsExtra = 0;
-	wc.cbWndExtra = 0;
 	wc.hInstance = hInstance;
-	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-	wc.lpszMenuName = NULL;
 	wc.lpszClassName = "Window";
-	wc.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
 
 	RegisterClassEx(&wc);
 
 
 	hwnd = CreateWindowEx(
-		WS_EX_CLIENTEDGE,
+		0,
 		wc.lpszClassName,
 		"WinAPI window",
 		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, 1280, 720,
+		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
 		NULL, NULL, hInstance, NULL);
+
+
+	if (hwnd == NULL) { __asm {int 3} }
 
 
 	ShowWindow(hwnd, nCmdShow);
