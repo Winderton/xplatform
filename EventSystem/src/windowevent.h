@@ -3,9 +3,11 @@
 
 #include "event.h"
 
-namespace Core
+#include <serialization.h>
+
+namespace CoreNative
 {
-	class WindowResizedEvent : public Event 
+	class WindowResizedEvent : public Event
 	{
 	private:
 		int width, height;
@@ -23,18 +25,16 @@ namespace Core
 		}
 	};
 
-
-
-	class WindowClosedEvent : public Event 
-	{
-	public:
-		WindowClosedEvent()
-			:
-			Event("Window Close Event", Event::EventType::WINDOW_CLOSED_EVENT) {}
-	public:
-		std::string format() const override
+		class WindowClosedEvent : public Event
 		{
-			return name;
-		}
-	};
-}
+		public:
+			WindowClosedEvent()
+				:
+				Event("Window Close Event", Event::EventType::WINDOW_CLOSED_EVENT) {}
+		public:
+			std::string format() const override
+			{
+				return name;
+			}
+		};
+	}

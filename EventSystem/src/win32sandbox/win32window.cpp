@@ -25,6 +25,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+#if 0
+
 int WINAPI WinMain(
 	_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -77,3 +79,5 @@ int WINAPI WinMain(
 	}
 	return Msg.wParam;
 }
+
+#endif

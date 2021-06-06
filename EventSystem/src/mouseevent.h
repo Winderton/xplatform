@@ -1,7 +1,9 @@
 #pragma once
 #include "event.h"
+#include <serialization.h>
 
-namespace Core
+
+namespace CoreNative
 {
 	class MouseMovedEvent : public Event 
 	{
@@ -13,6 +15,8 @@ namespace Core
 			Event("Mouse moved Event", Event::EventType::MOUSE_MOVED_EVENT),
 			x(x),
 			y(y) {}
+		
+
 	public:
 		std::string format() const override
 		{

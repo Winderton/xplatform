@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-namespace Core
+namespace CoreNative
 {
 	class Event
 	{

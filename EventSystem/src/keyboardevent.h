@@ -2,7 +2,7 @@
 #include "event.h"
 
 
-namespace Core
+namespace CoreNative
 {
 	class KeyPressedEvent : public Event 
 	{

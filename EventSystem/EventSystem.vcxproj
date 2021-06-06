@@ -82,11 +82,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)EventSystem\dep\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)EventSystem\dep\include;$(SolutionDir)client\src;$(SolutionDir)youtube\src;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <AdditionalDependencies>glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -144,6 +145,14 @@
     <ClInclude Include="src\mouseevent.h" />
     <ClInclude Include="src\window.h" />
     <ClInclude Include="src\windowevent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\client\client.vcxproj">
+      <Project>{baf40d26-bfe7-4919-ab8c-a7b807913229}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\youtube\youtube.vcxproj">
+      <Project>{0e526059-3126-4375-9801-f3fd8478918d}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

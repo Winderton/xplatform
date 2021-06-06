@@ -1,10 +1,13 @@
+#include <iostream>
 #include "window.h"
 #include "mouseevent.h"
 #include "keyboardevent.h"
 #include "windowevent.h"
-#include <iostream>
 
-namespace Core
+#include <serialization.h>
+#include <sstream>
+
+namespace CoreNative
 {
 	Window::Window(const std::string& name, int width, int height)
 	{
@@ -21,13 +24,32 @@ namespace Core
 
 	}
 
+	using namespace ObjectModel;
 
 	void Window::init(const std::string& name, int width, int height)
 	{
-		this->name = name;
-		this->width = width;
-		this->height = height;
+		
+		std::vector<uint8_t> objectFromFile = Core::Util::load("WindowParams.abc");
+		if (!objectFromFile.empty())
+		{
+			int16_t it = 0;
+			ObjectModel::Object toPrintObject = ObjectModel::Object::unpack(objectFromFile, it);
 
+			int16_t it2 = 0;
+			width = Core::decode<int32_t>(toPrintObject.findPrimitiveByName("width").getData(), it2);
+
+			int16_t it3 = 0;
+			height = Core::decode<int32_t>(toPrintObject.findPrimitiveByName("height").getData(), it3);
+		}
+		else
+		{
+			this->name = name;
+			this->width = width;
+			this->height = height;
+		}
+		
+
+		
 
 
 		if (!glfwInit())
@@ -47,7 +69,7 @@ namespace Core
 			}
 		}
 
-		
+
 		glfwMakeContextCurrent(window);
 		glfwSetWindowUserPointer(window, this);
 		glfwSetCursorPosCallback(window, mouseMovedCallback);
@@ -119,6 +141,14 @@ namespace Core
 		handle.width = width;
 		handle.height = height;
 		handle.fnCallback(e);
+
+		ObjectModel::Object storage("WindowParams");
+		std::unique_ptr<ObjectModel::Primitive> pWidth = ObjectModel::Primitive::create("width", ObjectModel::Type::I32, width);
+		std::unique_ptr<ObjectModel::Primitive> pHeight = ObjectModel::Primitive::create("height", ObjectModel::Type::I32, height);
+		storage.addEntity(pWidth.get());
+		storage.addEntity(pHeight.get());
+
+		Core::Util::retriveNsave(&storage);
 	}
 
 
@@ -129,6 +159,16 @@ namespace Core
 		handle.fnCallback(e);
 	}
 
+
+	void Window::store()
+	{
+		
+	}
+
+	void Window::load()
+	{
+		
+	}
 
 
 	Window::~Window()

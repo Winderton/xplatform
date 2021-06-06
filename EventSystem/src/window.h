@@ -5,13 +5,14 @@
 #include "event.h"
 
 
-namespace Core
+namespace CoreNative
 {
 	class Window final
 	{
 	private:
 		std::string name;
-		int width, height;
+		int width = 0;
+		int height = 0;
 		GLFWwindow* window = nullptr;
 		std::function<void(Event&)> fnCallback;
 	public:
@@ -35,5 +36,8 @@ namespace Core
 		static void keyCallback(GLFWwindow*, int key, int scancode, int action, int mods);
 		static void windowResizeCallback(GLFWwindow* window, int width, int height);
 		static void windowCloseCallback(GLFWwindow* window);
+	public:
+		void store();
+		void load();
 	};
 }
