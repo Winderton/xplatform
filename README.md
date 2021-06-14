@@ -14,6 +14,8 @@ _Следующие темы будут варьироваться и менят
 - [ ] Renderer(Raytracer/Rasterizer)
 - [ ] Compression(LZ, Huffman)
 - [ ] Custom Data Structures(Dynamic Array, Hashtable, Static Array)
+- [ ] Fullstack Web App(Postgre/Redis/Mongo, Node(express)back, Vue/Angular...)
+- [ ] Custom library for heavily used data structores(STL-like)
 - [ ] Allocators(На канале есть часовое видео по разработке malloc, но оно сюда не вписывается, так как слишком абстрактно)
 - [ ] ECS
 - [ ] Interpreter(И вообще, весь тул-чейн, который я бы хотел вам показать. Дебагер, профайлер, Статический анализатор. Скриптовой язык хотя бы для эллементарных задач)
