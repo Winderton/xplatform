@@ -24,10 +24,10 @@ namespace TestFrame
 	{
 		std::vector<uint8_t> objectFromFile = Core::Util::load("Foo.abc");
 
-		int16_t it = 0;
+		[[maybe_unused]]int16_t it = 0;
 		Object toPrintObject = Object::unpack(objectFromFile, it);
 
-		int16_t it2 = 0;
+		[[maybe_unused]]int16_t it2 = 0;
 		int w = Core::decode<int32_t>(toPrintObject.findPrimitiveByName("int32").getData(), it2);
 		std::cout << w << std::endl;
 	}
