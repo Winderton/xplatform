@@ -7,7 +7,7 @@ namespace ObjectModel
 	Object::Object(std::string name = "default")
 	{
 		setName(name);
-		wrapper = static_cast<int8_t>(Wrapper::OBJECT);
+		wrapper = static_cast<uint8_t>(Wrapper::OBJECT);
 		size += (sizeof int16_t) * 4;
 	}
 
@@ -27,9 +27,9 @@ namespace ObjectModel
 
 
 
-	void Object::pack(std::vector<int8_t>& buffer, int16_t& it)
+	void Object::pack(std::vector<uint8_t>& buffer, int16_t& it)
 	{
-		Core::encode<int8_t>(buffer, it, wrapper);
+		Core::encode<uint8_t>(buffer, it, wrapper);
 		Core::encode<int16_t>(buffer, it, nameLength);
 		Core::encode<std::string>(buffer, it, name);
 
@@ -64,10 +64,10 @@ namespace ObjectModel
 
 	}
 
-	Object Object::unpack(std::vector<int8_t>& buffer, int16_t& it)
+	Object Object::unpack(std::vector<uint8_t>& buffer, int16_t& it)
 	{
 		Object obj;
-		obj.wrapper = Core::decode<int8_t>(buffer, it);
+		obj.wrapper = Core::decode<uint8_t>(buffer, it);
 		obj.nameLength = Core::decode<int16_t>(buffer, it);
 		obj.name = Core::decode<std::string>(buffer, it);
 

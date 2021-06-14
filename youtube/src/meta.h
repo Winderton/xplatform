@@ -6,7 +6,7 @@
 namespace ObjectModel
 {
 
-	enum class Wrapper : int8_t
+	enum class Wrapper : uint8_t
 	{
 		PRIMITIVE = 1,
 		ARRAY,
@@ -14,7 +14,7 @@ namespace ObjectModel
 		OBJECT
 	};
 
-	enum class Type : int8_t
+	enum class Type : uint8_t
 	{
 		I8 = 1,
 		I16,
@@ -28,12 +28,12 @@ namespace ObjectModel
 	};
 
 	template<typename ...>
-	int8_t getTypeSize(Type type)
+	uint8_t getTypeSize(Type type)
 	{
 		switch (type)
 		{
 		case Type::BOOL: return sizeof(bool); break;
-		case Type::I8: return sizeof(int8_t); break;
+		case Type::I8: return sizeof(uint8_t); break;
 		case Type::I16: return sizeof(int16_t); break;
 		case Type::I32: return sizeof(int32_t); break;
 		case Type::I64: return sizeof(int64_t); break;

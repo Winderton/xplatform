@@ -11,7 +11,7 @@ namespace ObjectModel
 	class LIB Root
 	{
 	public:
-		int8_t wrapper;
+		uint8_t wrapper;
 	protected:
 		mutable int16_t nameLength;
 		mutable std::string name;
@@ -35,7 +35,7 @@ namespace ObjectModel
 
 		inline std::string getName() const { return name; }
 
-		virtual void pack(std::vector<int8_t>&, int16_t&) = 0;
+		virtual void pack(std::vector<uint8_t>&, int16_t&) = 0;
 	};
 }
 

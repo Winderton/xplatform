@@ -10,16 +10,16 @@ namespace Core
 	namespace Util
 	{
 		bool LIB isLittleEndian();
-		void save(const char*, std::vector<int8_t>& vector);
-		std::vector<int8_t> LIB load(const char*);
+		void save(const char*, std::vector<uint8_t>& vector);
+		std::vector<uint8_t> LIB load(const char*);
 		void LIB retriveNsave(ObjectModel::Root* r);
 
 	}
 
 	// 0 1 2 3
-	// 0x00 0x00 0x00 0x5
+	// 0x00 0x00 0x01 0xd3
 	template<typename T>
-	void encode(std::vector<int8_t>& buffer, int16_t& iterator, T value)
+	void encode(std::vector<uint8_t>& buffer, int16_t& iterator, T value)
 	{
 		for (unsigned i = 0, j = 0; i < sizeof T; i++)
 		{
@@ -29,30 +29,30 @@ namespace Core
 
 
 	template<>
-	inline void encode<float>(std::vector<int8_t>& buffer, int16_t& iterator, float value)
+	inline void encode<float>(std::vector<uint8_t>& buffer, int16_t& iterator, float value)
 	{
 		int32_t result = *reinterpret_cast<int32_t*>(&value);
 		encode<int32_t>(buffer, iterator, result);
 	}
 
 	template<>
-	inline void encode<double>(std::vector<int8_t>& buffer, int16_t& iterator, double value)
+	inline void encode<double>(std::vector<uint8_t>& buffer, int16_t& iterator, double value)
 	{
 		int64_t result = *reinterpret_cast<int64_t*>(&value);
 		encode<int64_t>(buffer, iterator, result);
 	}
 
 	template<>
-	inline void encode<std::string>(std::vector<int8_t>& buffer, int16_t& iterator, std::string value)
+	inline void encode<std::string>(std::vector<uint8_t>& buffer, int16_t& iterator, std::string value)
 	{
 		for (unsigned i = 0; i < value.size(); i++)
 		{
-			encode<int8_t>(buffer, iterator, value[i]);
+			encode<uint8_t>(buffer, iterator, value[i]);
 		}
 	}
 
 	template<typename T>
-	void encode(std::vector<int8_t>& buffer, int16_t& iterator, std::vector<T> value)
+	void encode(std::vector<uint8_t>& buffer, int16_t& iterator, std::vector<T> value)
 	{
 		for (unsigned i = 0; i < value.size(); i++)
 		{
@@ -65,7 +65,7 @@ namespace Core
 
 
 	template<typename T>
-	T decode(const std::vector<int8_t>& buffer, int16_t& it)
+	T decode(const std::vector<uint8_t>& buffer, int16_t& it)
 	{
 		T result = 0;
 
@@ -82,7 +82,7 @@ namespace Core
 	
 
 	template<>
-	inline std::string decode<std::string>(const std::vector<int8_t>& buffer, int16_t& it)
+	inline std::string decode<std::string>(const std::vector<uint8_t>& buffer, int16_t& it)
 	{
 		it -= 2;
 		int16_t size = decode<int16_t>(buffer, it);
@@ -96,7 +96,7 @@ namespace Core
 
 
 	template<typename ...>
-	void decode(const std::vector<int8_t>& buffer, int16_t& it, std::vector<int8_t>& dest)
+	void decode(const std::vector<uint8_t>& buffer, int16_t& it, std::vector<uint8_t>& dest)
 	{
 		for (unsigned i = 0; i < dest.size(); i++)
 		{

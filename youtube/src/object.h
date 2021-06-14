@@ -17,15 +17,29 @@ namespace ObjectModel
 	public:
 		Object(std::string);
 		void addEntity(Root*);
-		void pack(std::vector<int8_t>&, int16_t&);
-		static Object unpack(std::vector<int8_t>&, int16_t&);
+		void pack(std::vector<uint8_t>&, int16_t&);
+		static Object unpack(std::vector<uint8_t>&, int16_t&);
+
+
+
+		Primitive findPrimitiveByName(std::string name)
+		{
+			for (Primitive p : primitives)
+			{
+				if (p.getName() == name)
+				{
+					return p;
+				}
+			}
+		}
+
 		Root* findByName(std::string name)
 		{
 			for (Primitive p : primitives)
 			{
 				if (p.getName() == name)
 				{
-					return static_cast<Primitive*>(&p);
+					return dynamic_cast<Root*>(&p);
 				}
 			}
 
@@ -33,7 +47,7 @@ namespace ObjectModel
 			{
 				if (arr.getName() == name)
 				{
-					return static_cast<Array*>(&arr);
+					return  dynamic_cast<Root*>(&arr);
 				}
 			}
 
@@ -41,7 +55,7 @@ namespace ObjectModel
 			{
 				if (str.getName() == name)
 				{
-					return static_cast<Array*>(&str);
+					return  dynamic_cast<Root*>(&str);
 				}
 			}
 
@@ -49,11 +63,12 @@ namespace ObjectModel
 			{
 				if (o.getName() == name)
 				{
-					return static_cast<Object*>(&o);
+					return  dynamic_cast<Root*>(&o);
 				}
 			}
 
 			std::cout << "no as such" << std::endl;
+
 			__asm {
 				int 3
 			}

@@ -80,7 +80,8 @@ namespace Net
 				result.push_back(buffer[i]);
 			}
 
-			Primitive p = Primitive::unpack(result);
+			int16_t it = 0;
+			Primitive p = Primitive::unpack(result, it);
 			primitives.insert(std::make_pair(p.getName(), p));
 			current = p.getName();
 
@@ -127,7 +128,7 @@ namespace Net
 			int16_t it = 0;
 			std::unique_ptr<Primitive> p = modify(current);
 			std::vector<int8_t> result(p->getSize());
-			p->pack(&result, &it);
+			p->pack(result, it);
 			std::copy(result.begin(), result.end(), buffer);
 
 			if ((sendto(serversocket, buffer, p->getSize(), 0, (struct sockaddr*) & info, infolength)) == SOCKET_ERROR)

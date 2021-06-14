@@ -124,8 +124,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\client.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\client.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\client.h" />

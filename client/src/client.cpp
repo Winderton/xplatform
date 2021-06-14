@@ -63,9 +63,9 @@ namespace Net
 
 			int32_t foo = 53;
 			int16_t it = 0;
-			Primitive* p = Primitive::create("int32", Type::I32, foo);
-			std::vector<int8_t> result(p->getSize());
-			p->pack(&result, &it);
+			std::unique_ptr<Primitive> p = Primitive::create("int32", Type::I32, foo);
+			std::vector<uint8_t> result(p->getSize());
+			p->pack(result, it);
 			std::copy(result.begin(), result.end(), buffer);
 
 			if ((sendto(clientsocket, buffer, p->getSize(), 0, (struct sockaddr*) & info, infolength)) == SOCKET_ERROR)
@@ -104,13 +104,14 @@ namespace Net
 		printf("packet from:%s:%d\n", inet_ntoa(info.sin_addr), ntohs(info.sin_port));
 		if (buffer[0] == 0x1)
 		{
-			std::vector<int8_t> result;
+			std::vector<uint8_t> result;
 			for (unsigned i = 0; i < recvlength; i++)
 			{
 				result.push_back(buffer[i]);
 			}
 
-			Primitive p = Primitive::unpack(result);
+			int16_t it = 0;
+			Primitive p = Primitive::unpack(result, it);
 
 			printf("Primitive:\n");
 			printf("\t |Name:%s\n", p.getName().c_str());
