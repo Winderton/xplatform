@@ -6,6 +6,10 @@
 #include "glm/vec3.hpp"
 #include "glm/gtx/string_cast.hpp"
 
+
+
+
+
 int main()
 {
 	CoreNative::Window& window = CoreNative::Window::getInstanse();
