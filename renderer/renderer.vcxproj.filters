@@ -19,4 +19,8 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\basicVertex.shader" />
+    <None Include="src\basicFragment.shader" />
+  </ItemGroup>
 </Project>

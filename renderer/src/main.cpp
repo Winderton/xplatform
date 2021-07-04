@@ -1,4 +1,9 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <iostream>
+#include <fstream>
+#include <sstream>
+
 
 #define GLEW_STATIC
 
@@ -6,6 +11,55 @@
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 #include "glm/vec2.hpp"
+
+
+const std::string readFromFile(const GLchar* pathToFile)
+{
+	std::string content;
+	
+	std::ifstream fileStream(pathToFile, std::ios::in);
+
+	std::string line = "";
+	while (!fileStream.eof()) {
+		std::getline(fileStream, line);
+		content.append(line + "\n");
+	}
+
+	fileStream.close();
+	return content;
+}
+
+GLuint execute(const std::string& vert, const std::string& frag)
+{
+	GLuint program = glCreateProgram();
+
+	GLuint id = glCreateShader(GL_VERTEX_SHADER);
+	std::string result = readFromFile(vert.c_str());
+	const char* src = result.c_str();
+	glShaderSource(id, 1, &src, nullptr);
+	glCompileShader(id);
+	GLuint vs = id;
+	
+
+	GLuint id2 = glCreateShader(GL_FRAGMENT_SHADER);
+	std::string result2 = readFromFile(frag.c_str());
+	const char* src2 = result2.c_str();
+	glShaderSource(id2, 1, &src2, nullptr);
+	glCompileShader(id2);
+	GLuint fs = id2;
+
+
+	glAttachShader(program, vs);
+	glAttachShader(program, fs);
+	glLinkProgram(program);
+	glValidateProgram(program);
+	
+
+	glDeleteShader(vs);
+	glDeleteShader(fs);
+
+	return program;
+}
 
 
 int main(void)
@@ -17,13 +71,11 @@ int main(void)
 		__debugbreak();
 
 
-	if (!glewInit())
-		__debugbreak();
-
-
 
 	/* Create a windowed mode window and its OpenGL context */
 	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+
+
 	if (!window)
 	{
 		glfwTerminate();
@@ -32,6 +84,9 @@ int main(void)
 
 	/* Make the window's context current */
 	glfwMakeContextCurrent(window);
+
+	if (glewInit() != GLEW_OK)
+		std::cout << "GLEW failed..." << std::endl;
 
 	/* Loop until the user closes the window */
 
@@ -56,6 +111,9 @@ int main(void)
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
 
+	GLuint shader = execute("src/basicVertex.shader", "src/basicFragment.shader");
+	glUseProgram(shader);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
@@ -71,5 +129,7 @@ int main(void)
 	}
 
 	glfwTerminate();
+	glDeleteProgram(shader);
+
 	return 0;
 }
