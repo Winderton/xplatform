@@ -129,10 +129,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\basicFragment.shader" />
     <None Include="src\basicVertex.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\event.h" />
+    <ClInclude Include="src\keyboardevent.h" />
+    <ClInclude Include="src\mouseevent.h" />
+    <ClInclude Include="src\window.h" />
+    <ClInclude Include="src\windowevent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

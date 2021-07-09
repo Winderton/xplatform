@@ -4,16 +4,14 @@
 #include <fstream>
 #include <sstream>
 
+#include "window.h"
 
-#define GLEW_STATIC
-
-#include "GL/glew.h"
-#include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
 #include "glm/vec2.hpp"
 
 
-const std::string readFromFile(const GLchar* pathToFile)
+
+const std::string readFromFile(const char* pathToFile)
 {
 	std::string content;
 	
@@ -64,31 +62,8 @@ GLuint execute(const std::string& vert, const std::string& frag)
 
 int main(void)
 {
-	GLFWwindow* window;
+	CoreNative::Window& window = CoreNative::Window::getInstanse();
 
-	/* Initialize the library */
-	if (!glfwInit())
-		__debugbreak();
-
-
-
-	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
-
-
-	if (!window)
-	{
-		glfwTerminate();
-		return -1;
-	}
-
-	/* Make the window's context current */
-	glfwMakeContextCurrent(window);
-
-	if (glewInit() != GLEW_OK)
-		std::cout << "GLEW failed..." << std::endl;
-
-	/* Loop until the user closes the window */
 
 
 	glm::vec2 v1(-0.5f, -0.5f);
@@ -114,7 +89,7 @@ int main(void)
 	GLuint shader = execute("src/basicVertex.shader", "src/basicFragment.shader");
 	glUseProgram(shader);
 
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window.getGLFWwindow()))
 	{
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -122,7 +97,7 @@ int main(void)
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 		/* Swap front and back buffers */
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window.getGLFWwindow());
 
 		/* Poll for and process events */
 		glfwPollEvents();
