@@ -25,17 +25,27 @@ namespace Net
 
 
 		printf("WSA init\n");
-		assert(!(WSAStartup(514, &wsa)) && "Couldn't init wsa");
+		if (!(WSAStartup(514, &wsa)))
+		{
+			__debugbreak();
+		}
 		printf("WSA success\n");
 
 
 		printf("Creating socket\n");
-		assert(!((serversocket = socket(AF_INET, SOCK_DGRAM, 0)) == SOCKET_ERROR) && "Couldn't create socket");
+		if (serversocket = socket(AF_INET, SOCK_DGRAM, 0) == SOCKET_ERROR)
+		{
+			__debugbreak();
+		}
+
 		printf("Success!\n");
-		
+
 
 		printf("bind socket\n");
-		assert(!(bind(serversocket, (struct sockaddr*) & info, infolength)) && "Couldn't bind socket");
+		if (!(bind(serversocket, (struct sockaddr*) & info, infolength)))
+		{
+			__debugbreak();
+		}
 		printf("socket binded\n");
 
 
@@ -56,7 +66,7 @@ namespace Net
 			send();
 		}
 	}
-	
+
 
 
 	void Server::receive()
@@ -74,7 +84,7 @@ namespace Net
 		printf("packet from:%s:%d\n", inet_ntoa(info.sin_addr), ntohs(info.sin_port));
 		if (buffer[0] == 0x1)
 		{
-			std::vector<int8_t> result;
+			std::vector<uint8_t> result;
 			for (unsigned i = 0; i < recvlength; i++)
 			{
 				result.push_back(buffer[i]);
@@ -108,10 +118,10 @@ namespace Net
 			printf("\n");
 		}
 
-		
+
 	}
 
-	
+
 	void Server::send()
 	{
 
@@ -127,7 +137,7 @@ namespace Net
 		{
 			int16_t it = 0;
 			std::unique_ptr<Primitive> p = modify(current);
-			std::vector<int8_t> result(p->getSize());
+			std::vector<uint8_t> result(p->getSize());
 			p->pack(result, it);
 			std::copy(result.begin(), result.end(), buffer);
 
@@ -139,10 +149,10 @@ namespace Net
 
 			primitives.erase(current);
 		}
-		
+
 	}
 
-	
+
 	std::unique_ptr<Primitive> Server::modify(std::string key)
 	{
 		primitives.erase(key);
@@ -150,14 +160,14 @@ namespace Net
 		int16_t bar = 75;
 		std::unique_ptr<Primitive> p(Primitive::create("int16", Type::I16, bar));
 		primitives.insert(std::make_pair(p->getName(), *p));
-		
+
 		current = p->getName();
 
 		return std::move(p);
 
 	}
 
-	
+
 	Server::~Server()
 	{
 		WSACleanup();
