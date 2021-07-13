@@ -25,12 +25,19 @@ namespace Net
 
 
 		printf("WSA init\n");
-		assert(!(WSAStartup(514, &wsa)) && "Couldn't init wsa");
+		if (!(WSAStartup(514, &wsa)))
+		{
+			__debugbreak();
+		}
 		printf("WSA success\n");
 
 
 		printf("Creating socket\n");
-		assert(!((clientsocket = socket(AF_INET, SOCK_DGRAM, 0)) == SOCKET_ERROR) && "Couldn't create socket");
+		if (clientsocket = (socket(AF_INET, SOCK_DGRAM, 0) == SOCKET_ERROR))
+		{
+			__debugbreak();
+		}
+
 		printf("Success!\n");
 
 
@@ -84,7 +91,7 @@ namespace Net
 		}
 
 
-		
+
 	}
 
 
