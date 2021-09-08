@@ -9,7 +9,7 @@
 - [x] Deserialization
 - [x] Networking module
 - [x] Event System(кроссплатформенно, с glfw + win32)
-- [x] Fullstack Web App(PostgreSQL, Next.js, Node.js(express), Youtube/Github API integrationsm, Cloud deployment)
+- [x] Fullstack Web App(PostgreSQL, Next.js, Node.js(express), Youtube/Github API integrations, Cloud deployment)
  
 _Следующие темы будут варьироваться и меняться в зависимости от вашего желания их увидеть, а от моего - их делать, а предыдущие - будут расширяться и дополняться_
 - [ ] Renderer(Raytracer/Rasterizer)
