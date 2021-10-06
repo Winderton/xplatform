@@ -110,11 +110,29 @@ namespace CoreNative
 
 		if (action == GLFW_PRESS)
 		{
+			if (key == GLFW_KEY_SPACE)
+			{
+				handle.dots[0] = -1.0f;
+				handle.dots[1] = -1.0f;
+				handle.dots[2] = 0.0f;
+				handle.dots[3] = 1.0f;
+				handle.dots[4] = 1.0f;
+				handle.dots[5] = -1.0f;
+			}
 			KeyPressedEvent e(key);
 			handle.fnCallback(e);
 		}
 		else if (action == GLFW_RELEASE)
 		{
+			if (key == GLFW_KEY_SPACE)
+			{
+				handle.dots[0] = -0.5f;
+				handle.dots[1] = -0.5f;
+				handle.dots[2] = 0.0f;
+				handle.dots[3] = 0.5f;
+				handle.dots[4] = 0.5f;
+				handle.dots[5] = -0.5f;
+			}
 			KeyReleasedEvent e(key);
 			handle.fnCallback(e);
 		}

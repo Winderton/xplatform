@@ -13,6 +13,12 @@ namespace CoreNative
 {
 	class Window final
 	{
+	public:
+		float dots[6] = {
+				-0.5f, -0.5f,
+				0.0f, 0.5f,
+				0.5f, -0.5f
+		};
 	private:
 		std::string name;
 		int width = 0;
@@ -22,7 +28,7 @@ namespace CoreNative
 	public:
 		Window(const Window&) = delete;
 		Window& operator=(const Window&) = delete;
-
+		
 	private:
 		Window(const std::string& name, int width, int height);
 	private:
