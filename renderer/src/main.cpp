@@ -147,7 +147,6 @@ int main(void)
 		glfwSwapBuffers(window.getGLFWwindow());
 
 		glfwPollEvents();
-
 	}
 
 	glfwTerminate();
