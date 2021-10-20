@@ -81,7 +81,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)dep\GLFW\include;$(SolutionDir)dep\glew\include;$(SolutionDir)dep;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)dep\glew\lib\Release\Win32;$(SolutionDir)dep\GLFW\lib;</AdditionalLibraryDirectories>
       <Profile>true</Profile>
@@ -109,7 +109,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
@@ -131,18 +131,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="src\Event System\window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\basicFragment.shader" />
-    <None Include="src\basicVertex.shader" />
+    <None Include="src\glsl\basicFragment.shader" />
+    <None Include="src\glsl\basicVertex.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\event.h" />
-    <ClInclude Include="src\keyboardevent.h" />
-    <ClInclude Include="src\mouseevent.h" />
-    <ClInclude Include="src\window.h" />
-    <ClInclude Include="src\windowevent.h" />
+    <ClInclude Include="src\Event System\event.h" />
+    <ClInclude Include="src\Event System\keyboardevent.h" />
+    <ClInclude Include="src\Event System\mouseevent.h" />
+    <ClInclude Include="src\Event System\window.h" />
+    <ClInclude Include="src\Event System\windowevent.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

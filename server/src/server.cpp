@@ -3,8 +3,6 @@
 #pragma warning(disable: 4996)
 
 
-
-
 namespace Net
 {
 	Server::Server(int port, std::string ipaddress)
@@ -33,18 +31,17 @@ namespace Net
 
 
 		printf("Creating socket\n");
-<<<<<<< HEAD
+
 		if (serversocket = socket(AF_INET, SOCK_DGRAM, 0) == SOCKET_ERROR)
 		{
 			__debugbreak();
 		}
 
-=======
 		if (serversocket = (socket(AF_INET, SOCK_DGRAM, 0) == SOCKET_ERROR))
 		{
 			__debugbreak();
 		}
->>>>>>> feature
+
 		printf("Success!\n");
 
 

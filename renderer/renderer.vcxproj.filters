@@ -18,28 +18,28 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\window.cpp">
+    <ClCompile Include="src\Event System\window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\basicVertex.shader" />
-    <None Include="src\basicFragment.shader" />
+    <None Include="src\glsl\basicFragment.shader" />
+    <None Include="src\glsl\basicVertex.shader" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\keyboardevent.h">
+    <ClInclude Include="src\Event System\windowevent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\window.h">
+    <ClInclude Include="src\Event System\window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\windowevent.h">
+    <ClInclude Include="src\Event System\mouseevent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\mouseevent.h">
+    <ClInclude Include="src\Event System\keyboardevent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\event.h">
+    <ClInclude Include="src\Event System\event.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

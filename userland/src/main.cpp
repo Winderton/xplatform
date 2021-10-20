@@ -33,14 +33,14 @@ namespace TestFrame
 	}
 }
 
-int main(int argc, char** argv)
-{
-	assert(Core::Util::isLittleEndian());
-
-	TestFrame::testPack();
-	TestFrame::testUnpack();
-
-	(void)argc;
-	(void)argv;
-	return 0;
-}
+//int main(int argc, char** argv)
+//{
+//	assert(Core::Util::isLittleEndian());
+//
+//	TestFrame::testPack();
+//	TestFrame::testUnpack();
+//
+//	(void)argc;
+//	(void)argv;
+//	return 0;
+//}
