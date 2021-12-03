@@ -105,7 +105,82 @@ namespace Core
 	}
 
 
-	
+	void Miner::process_input(HWND handle, std::vector<int>& peers, BlockChain& bc)
+	{
+		for (;;)
+		{
+			int lvl;
+			std::string miner;
+			//temporary for testing
+			//The Transaction Ins/Outs with digital sign(EC) is TODO
+			std::string in;
+			std::string out;
+			float amount;
+			std::string input;
+			//TRANSACTION TODO HERE
+			std::vector<std::string> transaction;
+			std::cout << "Type /print to print all blocks" << std::endl;
+			std::cout << "Type /add to add transaction" << std::endl;
+			std::cout << "Type [name] of the block to look at:" << std::endl;
+			std::cin >> input;
+
+			if (input == "/print")
+			{
+				bc.printBlocks();
+			}
+			else if (input == "/add")
+			{
+				spdlog::info("Provide miner's name:");
+				std::cin >> miner;
+				spdlog::info("inTX:");
+				std::cin >> in;
+				spdlog::info("outTX:");
+				std::cin >> out;
+				spdlog::info("Amount:");
+				std::cin >> amount;
+
+				//idiot, no time to think, have to get the work done!
+				std::string tx = "Miner: " + miner + ", " + "InTX: " + in + ", " + "OutTX: " + out + "Amount: +" + std::to_string(amount) + "WBT";
+				transaction.push_back(tx);
+				std::cout << "Enter difficulty level:" << std::endl;
+				std::cin >> lvl;
+
+				std::pair<std::string, std::string> pair = Utils::findHash(lvl, bc.getNumOfBlocks(), bc.getLatestBlockHash(), transaction);
+
+				//This gonna be the main transaction and digital wallet option for the future logic
+				//now it just mimics + .25 WBT each 5 blocks.
+				//Bitcoin does this every 210k blocks as far as i know
+				if ((bc.getNumOfBlocks() != 0) && ((bc.getNumOfBlocks() % 3) == 0))  MessageBox(handle, "+0.25WBT", "Blockchain Message", MB_OK);
+				bc.addBlock(lvl, bc.getNumOfBlocks(), Block::getTime().c_str(), bc.getLatestBlockHash(), pair.first, pair.second, transaction);
+				spdlog::info("Updating blockchain\n");
+				for (int i = 0; i < peers.size(); i++)
+				{
+					int port = peers[i];
+					printf("--- sending to node %d\n", port);
+					HttpClient client("localhost:" + std::to_string(port));
+					auto req = client.request("POST", "/updateLedger", bc.serialize());
+					//std::cout << "Node " << port << " Response: " << req->content.string() << std::endl;
+				}
+			}
+			else
+			{
+				for (unsigned i = 0; i < bc.getNumOfBlocks(); i++)
+				{
+					if (bc.getByName(i) == input)
+					{
+						bc.printBlock(i);
+					}
+					else
+					{
+						spdlog::warn("Either the input is incorrect or i haven't finish this feature yet\n");
+						break;
+					}
+				}
+			}
+		}
+		std::cout << std::endl;
+	}
+
 
 	int Miner::start(HttpServer* server, BlockChain& blockchain, std::vector<int>& peers)
 	{
