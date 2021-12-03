@@ -4,7 +4,7 @@
 
 - [Merkle](https://github.com/microsoft/merklecpp) Merkle Tree
 
-- [libfor](https://github.com/seleznevae/libfort) prettify
+- [libfort](https://github.com/seleznevae/libfort) prettify
 
 - [spdlog](https://github.com/gabime/spdlog) logging system
 
