@@ -1,243 +1,174 @@
-#include "net/client_http.h"
-#include "net/server_http.h"
-#include "net/status_code.hpp"
+#define _CRT_SECURE_NO_WARNINGS
 
-// Added for the json-example
-#define BOOST_SPIRIT_THREADSAFE
-#include <boost/property_tree/json_parser.hpp>
-#include <boost/property_tree/ptree.hpp>
 
-// Added for the default_resource example
-#include <algorithm>
-#include <boost/filesystem.hpp>
-#include <fstream>
-#include <vector>
-#ifdef HAVE_OPENSSL
-#include "crypto.hpp"
-#endif
+#include "core/Miner.hpp"
 
-using namespace std;
-// Added for the json-example:
-using namespace boost::property_tree;
-
+using json = nlohmann::json;
 using HttpServer = SimpleWeb::Server<SimpleWeb::HTTP>;
 using HttpClient = SimpleWeb::Client<SimpleWeb::HTTP>;
 
-int main() {
-	// HTTP-server at port 8080 using 1 thread
-	// Unless you do more heavy non-threaded processing in the resources,
-	// 1 thread is usually faster than several threads
+
+#define MAX_LOADSTRING 100
+#define MAX_WCOIN_COUNT_IS
+
+ATOM                MyRegisterClass(HINSTANCE hInstance);
+LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+
+HINSTANCE hInst;
+WCHAR szTitle[MAX_LOADSTRING];
+WCHAR szWindowClass[MAX_LOADSTRING];
+
+TCHAR title[] = _T("BLOCKCHAIN");
+
+int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
+{
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+	using namespace Core;
+
 	HttpServer server;
-	server.config.port = 8080;
+	std::vector<int> peers;
+	BlockChain blockchain;
+	Miner* miner = new Miner(&server, peers, blockchain);
 
-	// Add resources using path-regex and method-string, and an anonymous function
-	// POST-example for the path /string, responds the posted string
-	server.resource["^/string$"]["POST"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-		// Retrieve string:
-		auto content = request->content.string();
-		// request->content.string() is a convenience function for:
-		// stringstream ss;
-		// ss << request->content.rdbuf();
-		// auto content=ss.str();
-
-		*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n"
-			<< content;
-
-
-		// Alternatively, use one of the convenience functions, for instance:
-		// response->write(content);
-	};
-
-	// POST-example for the path /json, responds firstName+" "+lastName from the posted json
-	// Responds with an appropriate error message if the posted json is not valid, or if firstName or lastName is missing
-	// Example posted json:
-	// {
-	//   "firstName": "John",
-	//   "lastName": "Smith",
-	//   "age": 25
-	// }
-	server.resource["^/json$"]["POST"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-		try {
-			ptree pt;
-			read_json(request->content, pt);
-
-			auto name = pt.get<string>("firstName") + " " + pt.get<string>("lastName");
-
-			*response << "HTTP/1.1 200 OK\r\n"
-				<< "Content-Length: " << name.length() << "\r\n\r\n"
-				<< name;
-		}
-		catch (const exception & e) {
-			*response << "HTTP/1.1 400 Bad Request\r\nContent-Length: " << strlen(e.what()) << "\r\n\r\n"
-				<< e.what();
-		}
-
-
-		// Alternatively, using a convenience function:
-		// try {
-		//     ptree pt;
-		//     read_json(request->content, pt);
-
-		//     auto name=pt.get<string>("firstName")+" "+pt.get<string>("lastName");
-		//     response->write(name);
-		// }
-		// catch(const exception &e) {
-		//     response->write(SimpleWeb::StatusCode::client_error_bad_request, e.what());
-		// }
-	};
-
-	// GET-example for the path /info
-	// Responds with request-information
-	server.resource["^/info$"]["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-		stringstream stream;
-		stream << "<h1>Request from " << request->remote_endpoint_address() << ":" << request->remote_endpoint_port() << "</h1>";
-
-		stream << request->method << " " << request->path << " HTTP/" << request->http_version;
-
-		stream << "<h2>Query Fields</h2>";
-		auto query_fields = request->parse_query_string();
-		for (auto& field : query_fields)
-			stream << field.first << ": " << field.second << "<br>";
-
-		stream << "<h2>Header Fields</h2>";
-		for (auto& field : request->header)
-			stream << field.first << ": " << field.second << "<br>";
-
-		response->write(stream);
-	};
-
-	// GET-example for the path /match/[number], responds with the matched string in path (number)
-	// For instance a request GET /match/123 will receive: 123
-	server.resource["^/match/([0-9]+)$"]["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-		response->write(request->path_match[1]);
-	};
-
-	// GET-example simulating heavy work in a separate thread
-	server.resource["^/work$"]["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> /*request*/) {
-		thread work_thread([response] {
-			this_thread::sleep_for(chrono::seconds(5));
-			response->write("Work done");
-			});
-		work_thread.detach();
-	};
-
-	// Default GET-example. If no other matches, this anonymous function will be called.
-	// Will respond with content in the web/-directory, and its subdirectories.
-	// Default file: index.html
-	// Can for instance be used to retrieve an HTML 5 client that uses REST-resources on this server
-	server.default_resource["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
-		try {
-			auto web_root_path = boost::filesystem::canonical("src/web");
-			auto path = boost::filesystem::canonical(web_root_path / request->path);
-			// Check if path is within web_root_path
-			if (distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
-				!equal(web_root_path.begin(), web_root_path.end(), path.begin()))
-				throw invalid_argument("path must be within root path");
-			if (boost::filesystem::is_directory(path))
-				path /= "index.html";
-
-			SimpleWeb::CaseInsensitiveMultimap header;
-
-			// Uncomment the following line to enable Cache-Control
-			// header.emplace("Cache-Control", "max-age=86400");
-
-#ifdef HAVE_OPENSSL
-//    Uncomment the following lines to enable ETag
-//    {
-//      ifstream ifs(path.string(), ifstream::in | ios::binary);
-//      if(ifs) {
-//        auto hash = SimpleWeb::Crypto::to_hex_string(SimpleWeb::Crypto::md5(ifs));
-//        header.emplace("ETag", "\"" + hash + "\"");
-//        auto it = request->header.find("If-None-Match");
-//        if(it != request->header.end()) {
-//          if(!it->second.empty() && it->second.compare(1, hash.size(), hash) == 0) {
-//            response->write(SimpleWeb::StatusCode::redirection_not_modified, header);
-//            return;
-//          }
-//        }
-//      }
-//      else
-//        throw invalid_argument("could not read file");
-//    }
-#endif
-
-			auto ifs = make_shared<ifstream>();
-			ifs->open(path.string(), ifstream::in | ios::binary | ios::ate);
-
-			if (*ifs) {
-				auto length = ifs->tellg();
-				ifs->seekg(0, ios::beg);
-
-				header.emplace("Content-Length", to_string(length));
-				response->write(header);
-
-				// Trick to define a recursive function within this scope (for example purposes)
-				class FileServer {
-				public:
-					static void read_and_send(const shared_ptr<HttpServer::Response>& response, const shared_ptr<ifstream>& ifs) {
-						// Read and send 128 KB at a time
-						static vector<char> buffer(131072); // Safe when server is running on one thread
-						streamsize read_length;
-						if ((read_length = ifs->read(&buffer[0], static_cast<streamsize>(buffer.size())).gcount()) > 0) {
-							response->write(&buffer[0], read_length);
-							if (read_length == static_cast<streamsize>(buffer.size())) {
-								response->send([response, ifs](const SimpleWeb::error_code& ec) {
-									if (!ec)
-										read_and_send(response, ifs);
-									else
-										cerr << "Connection interrupted" << endl;
-									});
-							}
-						}
-					}
-				};
-				FileServer::read_and_send(response, ifs);
-			}
-			else
-				throw invalid_argument("could not read file");
-		}
-		catch (const exception & e) {
-			
-			response->write(SimpleWeb::StatusCode::client_error_bad_request, "Could not open path " + request->path + ": " + e.what());
-		}
-	};
-
-	server.on_error = [](shared_ptr<HttpServer::Request> /*request*/, const SimpleWeb::error_code& /*ec*/) {
-		// Handle errors here
-		// Note that connection timeouts will also call this handle with ec set to SimpleWeb::errc::operation_canceled
-	};
-
-	thread server_thread([&server]() {
-		// Start server
-		server.start();
+	std::thread server_thread([&server]()
+		{
+			server.start();
 		});
 
-	// Wait for server to start so that the client can connect
-	this_thread::sleep_for(chrono::seconds(1));
+	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
+	LoadStringW(hInstance, IDC_BAL, szWindowClass, MAX_LOADSTRING);
+	MyRegisterClass(hInstance);
 
-	// Client examples
-	HttpClient client("localhost:8080");
+	//const wchar_t* name = L"Winbit";
+	hInst = hInstance;
+	HWND hWnd = CreateWindowW(szWindowClass,
+		(LPCWSTR)"Blockchain",
+		WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT,
+		1280, 720,
+		NULL,
+		NULL,
+		hInstance,
+		NULL);
 
-	string json_string = "{\"firstName\": \"John\",\"lastName\": \"Smith\",\"age\": 25}";
 
-	// Synchronous request examples
-	try {
-		auto r1 = client.request("GET", "/match/123");
-		cout << r1->content.rdbuf() << endl; // Alternatively, use the convenience function r1->content.string()
-
-		auto r2 = client.request("POST", "/string", json_string);
-		cout << r2->content.rdbuf() << endl;
+	if (!hWnd)
+	{
+		return FALSE;
 	}
-	catch (const SimpleWeb::system_error & e) {
-		cerr << "Client request error: " << e.what() << endl;
+
+	ShowWindow(hWnd, nCmdShow);
+	UpdateWindow(hWnd);
+
+	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_BAL));
+	MSG msg;
+
+
+	std::thread proc(&Miner::process_input, miner, hWnd, std::ref(peers), std::ref(blockchain));
+
+	while (GetMessage(&msg, nullptr, 0, 0))
+	{
+		if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 	}
 
-	// Asynchronous request example
-	client.request("POST", "/json", json_string, [](shared_ptr<HttpClient::Response> response, const SimpleWeb::error_code& ec) {
-		if (!ec)
-			cout << response->content.rdbuf() << endl;
-		});
-	client.io_service->run();
 
-	server_thread.join();
+	miner->ReleaseConsole();
+	proc.join();
+	return (int)msg.wParam;
+}
+
+ATOM MyRegisterClass(HINSTANCE hInstance)
+{
+	WNDCLASSEXW wcex;
+
+	wcex.cbSize = sizeof(WNDCLASSEX);
+
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;//it should be global
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = hInstance;
+	wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_BAL));
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_BAL);
+	wcex.lpszClassName = szWindowClass;
+	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
+	return RegisterClassExW(&wcex);
+}
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_COMMAND:
+	{
+		int wmId = LOWORD(wParam);
+		// Parse the menu selections:
+		switch (wmId)
+		{
+		case IDM_ABOUT:
+			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			break;
+		case IDM_EXIT:
+			DestroyWindow(hWnd);
+			break;
+		default:
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
+	}
+	break;
+	case WM_PAINT:
+	{
+		static HFONT hFont;
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hWnd, &ps);
+
+		SetBkMode(hdc, TRANSPARENT);
+		SetTextColor(hdc, 0x000);
+		SelectFont(hdc, hFont);
+
+		SIZE dim;
+		GetTextExtentPoint32(hdc, title, strlen(title), &dim);
+
+		int x = (1280 >> 1) - (dim.cx >> 1);
+		int y = (720 >> 1) - (dim.cy >> 1);
+
+		TextOut(hdc, x, y, title, strlen(title));
+		EndPaint(hWnd, &ps);
+	}
+	break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
+}
+
+INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		break;
+	}
+	return (INT_PTR)FALSE;
 }
