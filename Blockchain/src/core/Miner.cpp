@@ -181,6 +181,38 @@ namespace Core
 		std::cout << std::endl;
 	}
 
+	int Miner::getAvilablePort()
+	{
+		std::random_device rd;
+		std::mt19937 rng(rd());
+		std::uniform_int_distribution<int> uni(3000, 4000);
+
+		auto port = uni(rng);
+		return port;
+	}
+
+	void Miner::writePort(unsigned int port)
+	{
+		std::ofstream file;
+		file.open("file.txt", std::ios::out | std::ios::app);
+		if (file.fail()) throw std::ios_base::failure(std::strerror(errno));
+
+		file.exceptions(file.exceptions() | std::ios::failbit | std::ifstream::badbit);
+
+		file << port << std::endl;
+	}
+
+	std::vector<int> Miner::readPort(const char* path)
+	{
+		std::ifstream is(path);
+		std::istream_iterator<int> start(is), end;
+		std::vector<int> numbers(start, end);
+		std::copy(numbers.begin(), numbers.end(), std::ostream_iterator<int>(std::cout, ","));
+		return numbers;
+	}
+
+
+	
 
 	int Miner::start(HttpServer* server, BlockChain& blockchain, std::vector<int>& peers)
 	{
