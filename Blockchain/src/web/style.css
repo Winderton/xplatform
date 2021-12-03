@@ -1,0 +1,41 @@
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+}
+
+body {
+    font-family: 'roboto';
+}
+
+h1 {
+    font-size: 3.45em;
+    font-weight: 100;
+}
+
+.topnav {
+    background-color: white;
+    overflow: hidden;
+}
+
+    .topnav a {
+        float: left;
+        color: black;
+        text-align: center;
+        padding: 0 40px;
+        text-decoration: none;
+        font-size: 1em;
+    }
+
+        .topnav a:hover {
+            background-color: grey;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: white;
+            color: black;
+        }
