@@ -279,7 +279,18 @@ namespace Core
 			}
 		};
 
-		
+		server->resource["^/current$"]["GET"] = [&blockchain](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request) {
+			response->write(blockchain.serialize());
+		};
+
+		server->resource["^/peerpush$"]["POST"] = [&peers](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request)
+		{
+			json content = json::parse(request->content);
+			peers.push_back(content["port"].get<int>());
+			spdlog::info("POST / HTTP/1.1 [{0:d}] ", content["port"].get<int>(), " added to peers");
+			*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.size() << "\r\n\r\n"
+				<< "joined";
+		};
 
 		server->resource["^/updateLedger$"]["POST"] = [&blockchain](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request)
 		{
