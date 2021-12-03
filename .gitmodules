@@ -1,0 +1,12 @@
+[submodule "Blockchain/dep/libfort"]
+	path = Blockchain/dep/libfort
+	url = https://github.com/seleznevae/libfort
+[submodule "Blockchain/dep/spdlog"]
+	path = Blockchain/dep/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Blockchain/vendor/spdlog"]
+	path = Blockchain/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "Blockchain/vendor/libfort"]
+	path = Blockchain/vendor/libfort
+	url = https://github.com/seleznevae/libfort
