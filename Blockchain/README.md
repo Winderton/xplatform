@@ -1,8 +1,13 @@
-Technologies:
+#### Tech:
 
-[openssl](https://github.com/openssl/openssl)
-[merkle](https://github.com/microsoft/merklecpp)
-[libfor](https://github.com/seleznevae/libfort)
-[spdlog](https://github.com/gabime/spdlog)
-[http server](https://github.com/eidheim/Simple-Web-Server)
-[json](https://github.com/nlohmann/json)
+- [Openssl](https://github.com/openssl/openssl) hashing
+
+- [Merkle](https://github.com/microsoft/merklecpp) Merkle Tree
+
+- [libfor](https://github.com/seleznevae/libfort) prettify
+
+- [spdlog](https://github.com/gabime/spdlog) logging system
+
+- [http server](https://github.com/eidheim/Simple-Web-Server) client/server communication for p2p
+
+- [json](https://github.com/nlohmann/json) serialization/deserialization
