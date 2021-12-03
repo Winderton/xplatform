@@ -212,7 +212,115 @@ namespace Core
 	}
 
 
-	
+	void Miner::setUpPeer(HttpServer* server, std::vector<int>& peers, BlockChain& blockchain)
+	{
+		using json = nlohmann::json;
+		server->resource["^/string$"]["POST"] = [](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request) {
+			auto content = request->content.string();
+			*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.length() << "\r\n\r\n" << content;
+		};
+
+		server->default_resource["GET"] = [](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request) {
+			using namespace std;
+			try {
+
+				auto web_root_path = boost::filesystem::canonical("src/web");
+				auto path = boost::filesystem::canonical(web_root_path / request->path);
+				// Check if path is within web_root_path
+				if (distance(web_root_path.begin(), web_root_path.end()) > distance(path.begin(), path.end()) ||
+					!equal(web_root_path.begin(), web_root_path.end(), path.begin()))
+					throw invalid_argument("path must be within root path");
+				if (boost::filesystem::is_directory(path))
+					path /= "index.html";
+
+				SimpleWeb::CaseInsensitiveMultimap header;
+
+				// Uncomment the following line to enable Cache-Control
+				// header.emplace("Cache-Control", "max-age=86400");
+
+
+				auto ifs = make_shared<ifstream>();
+				ifs->open(path.string(), ifstream::in | std::ios::binary | std::ios::ate);
+
+				if (*ifs) {
+					auto length = ifs->tellg();
+					ifs->seekg(0, ios::beg);
+
+					header.emplace("Content-Length", std::to_string(length));
+					response->write(header);
+
+					// Trick to define a recursive function within this scope (for example purposes)
+					class FileServer {
+					public:
+						static void read_and_send(const shared_ptr<HttpServer::Response>& response, const shared_ptr<ifstream>& ifs) {
+							// Read and send 128 KB at a time
+							static vector<char> buffer(131072); // Safe when server is running on one thread
+							streamsize read_length;
+							if ((read_length = ifs->read(&buffer[0], static_cast<streamsize>(buffer.size())).gcount()) > 0) {
+								response->write(&buffer[0], read_length);
+								if (read_length == static_cast<streamsize>(buffer.size())) {
+									response->send([response, ifs](const SimpleWeb::error_code& ec) {
+										if (!ec)
+											read_and_send(response, ifs);
+										else
+											cerr << "Connection interrupted" << endl;
+										});
+								}
+							}
+						}
+					};
+					FileServer::read_and_send(response, ifs);
+				}
+				else
+					throw invalid_argument("could not read file");
+			}
+			catch (const exception & e) {
+				response->write(SimpleWeb::StatusCode::client_error_bad_request, "Could not open path " + request->path + ": " + e.what());
+			}
+		};
+
+		
+
+		server->resource["^/updateLedger$"]["POST"] = [&blockchain](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request)
+		{
+			json content = json::parse(request->content);
+			blockchain.blockchain.resize(1);
+			for (unsigned i = 1; i < content["length"].get<int>(); i++)
+			{
+				auto block = content["data"][i];
+				std::vector<std::string> data = block["data"].get<std::vector<std::string>>();
+				blockchain.addBlock(block["difficulty"], block["counter"], block["minedtime"], block["previousHash"], block["hash"], block["nonce"], data);
+			}
+			*response << "HTTP/1.1 200 OK\r\nContent-Length: " << content.size() << "\r\n\r\n" << "Blockchain recreated\n";
+		};
+
+		//server.resource["^/json$"]["POST"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+		//	using namespace boost::property_tree;
+		//	try {
+		//		ptree pt;
+		//		read_json(request->content, pt);
+
+		//		auto name = pt.get<string>("firstName") + " " + pt.get<string>("lastName");
+
+		//		*response << "HTTP/1.1 200 OK\r\n"
+		//			<< "Content-Length: " << name.length() << "\r\n\r\n"
+		//			<< name;
+		//	}
+		//	catch (const exception & e) {
+		//		*response << "HTTP/1.1 400 Bad Request\r\nContent-Length: " << strlen(e.what()) << "\r\n\r\n"
+		//			<< e.what();
+		//	}
+		//};
+
+
+		//// GET-example for the path /match/[number], responds with the matched string in path (number)
+		//// For instance a request GET /match/123 will receive: 123
+		//server.resource["^/match/([0-9]+)$"]["GET"] = [](shared_ptr<HttpServer::Response> response, shared_ptr<HttpServer::Request> request) {
+		//	response->write(request->path_match[1]);
+		//};
+
+		spdlog::info("Server started at localhost:{0:d}", server->config.port);
+	}
 
 	int Miner::start(HttpServer* server, BlockChain& blockchain, std::vector<int>& peers)
 	{
