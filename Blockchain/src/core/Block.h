@@ -9,6 +9,7 @@
 #include <memory>
 #include <ctime>
 
+#include <serialization.h>
 
 #include "fort.h"
 #include "fort.hpp"
@@ -18,7 +19,7 @@
 #include "../json.h"
 
 using json = nlohmann::json;
-
+using namespace ObjectModel;
 
 class Block
 {
@@ -105,11 +106,66 @@ public:
 
 	}
 
-	//serializable toOurFormat(Block block);
+	/*
+
+	void testPack()
+	{
+		int32_t foo = 231;
+		std::unique_ptr<Primitive> p = Primitive::create("int32", Type::I32, foo);
+
+		Object Test("Foo");
+		Test.addEntity(p.get());
+
+		Core::Util::retriveNsave(&Test);
+	}
+
+	void testUnpack()
+	{
+		std::vector<uint8_t> objectFromFile = Core::Util::load("Foo.abc");
+
+		[[maybe_unused]]int16_t it = 0;
+		Object toPrintObject = Object::unpack(objectFromFile, it);
+
+		[[maybe_unused]]int16_t it2 = 0;
+		int w = Core::decode<int32_t>(toPrintObject.findPrimitiveByName("int32").getData(), it2);
+		std::cout << w << std::endl;
+	}
+
+	*/
+	
+	std::vector<int8_t> serializeToOurFormat()
+	{
+		Object object("data");
+		std::unique_ptr<Primitive> difficulty = Primitive::create("difficulty", Type::I32, this->difficulty);
+		std::unique_ptr<Primitive> counter = Primitive::create("counter", Type::I32, this->counter);
+		std::unique_ptr<Array> minedTime = Array::createString("minedTime", Type::I8, this->minedTime);
+		std::unique_ptr<Array> prevHash = Array::createString("prevHash", Type::I8, this->prevHash);
+		std::unique_ptr<Array> hash = Array::createString("hash", Type::I8, this->hash);
+		std::unique_ptr<Array> nonce = Array::createString("nonce", Type::I8, this->nonce);
+		std::unique_ptr<Array> tx = Array::createArray("tx", Type::I8, this->tx);
+		object.addEntity(difficulty.get());
+		object.addEntity(counter.get());
+		object.addEntity(minedTime.get());
+		object.addEntity(hash.get());
+		object.addEntity(nonce.get());
+		object.addEntity(tx.get());
+
+		Core::Util::retriveNsave(&object);
+
+	}
+
+	void deserializeFromOurFormat()
+	{
+		std::vector<uint8_t> objectFromFile = Core::Util::load("data.abc");
+		int16_t it = 0;
+		Object toPrintObject = Object::unpack(objectFromFile, it);
+	}
 
 	json serialize()
 	{
-		json j = { {"difficulty", this->difficulty}, {"counter", this->counter}, {"minedtime", this->minedTime}, {"previousHash",  this->prevHash}, {"hash", this->hash}, {"nonce", this->nonce}, {"tx", this->tx} };
+		json j = { {"difficulty", this->difficulty}, {"counter", this->counter},
+		{"minedtime", this->minedTime}, {"previousHash",  this->prevHash},
+		{"hash", this->hash}, {"nonce", this->nonce}, {"tx", this->tx} };
 		return j;
 	}
 
