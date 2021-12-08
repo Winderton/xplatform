@@ -78,17 +78,21 @@ namespace Utils
 	}
 #endif
 
-	std::string hextoascii(const std::string& str) {
-		std::string result;
 
-		for (int i = 0; i < str.size(); i += 2) {
-			std::string byte = str.substr(i, 2);
-			char chr = (char)(int)strtol(byte.c_str(), NULL, 16);
-			result.push_back(chr);
+
+
+	merkle::Hash getMerkleRootM(std::vector<std::string>& txs)
+	{
+		std::vector<merkle::Tree::Hash> hashes(txs.size());
+		merkle::Tree mt;
+		for (unsigned i = 0; i < hashes.size(); i++)
+		{
+			mt.insert(sha256(txs[i]));
 		}
-
-		return result;
+		merkle::Tree::Hash root = mt.root();
+		return root;
 	}
+
 
 	std::string merkleMe(const std::string& s1)
 	{
@@ -152,14 +156,14 @@ namespace Utils
 
 
 
-	std::pair<std::string, std::string> findHash(int dificulty, int index, std::string prevHash, std::vector<std::string>& merkle)
+	std::pair<std::string, std::string> findHash(int dificulty, int index, std::string prevHash, std::vector<std::string>& txs)
 	{
 		std::string target = "";
 		for (unsigned i = 0; i < dificulty; i++)
 		{
 			target += std::to_string(0);
 		}
-		std::string header = std::to_string(index) + prevHash + getMerkleRoot(merkle);
+		std::string header = std::to_string(index) + prevHash + getMerkleRootM(txs).to_string();
 		auto start = std::chrono::high_resolution_clock::now();
 		for (int i = 384993400; i >= 0; i--)
 		{

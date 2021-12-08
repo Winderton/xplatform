@@ -84,7 +84,7 @@ public:
 		{
 			target += std::to_string(0);
 		}
-		std::string header = std::to_string(counter) + prevHash + Utils::getMerkleRoot(merkle) + nonce;
+		std::string header = std::to_string(counter) + prevHash + Utils::getMerkleRootM(merkle).to_string() + nonce;
 		if ((!Utils::sha256(header).compare(hash)) && (hash.substr(0, difficulty) == target) && (counter == blockchain.size()))
 		{
 			spdlog::info("(Consensus???)Proof of idiot. Somehow it's a match.\nHash: {0}\n Difficulty {1:d};", hash.c_str(), difficulty);
