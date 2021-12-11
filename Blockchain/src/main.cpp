@@ -27,15 +27,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	UNREFERENCED_PARAMETER(lpCmdLine);
 	using namespace Core;
 
-	HttpServer server;
+	HttpServer servers;
+	auto server = std::make_shared<HttpServer>();
 	std::vector<int> peers;
 	BlockChain blockchain;
-	Miner* miner = new Miner(&server, peers, blockchain);
+	auto miner = std::make_unique<Miner>(server, peers, blockchain);
 
-	std::thread server_thread([&server]()
-		{
-			server.start();
-		});
+	std::thread server_thread([&server]() {	server->start(); });
 
 	LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 	LoadStringW(hInstance, IDC_BAL, szWindowClass, MAX_LOADSTRING);
@@ -66,7 +64,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	MSG msg;
 
 
-	std::thread proc(&Miner::process_input, miner, hWnd, std::ref(peers), std::ref(blockchain));
+	std::thread proc(&Miner::process_input, std::move(miner), hWnd, std::ref(peers), std::ref(blockchain));
 
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{

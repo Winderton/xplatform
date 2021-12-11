@@ -3,15 +3,15 @@
 
 namespace Core
 {
-	Miner::Miner(HttpServer* server, std::vector<int>& peers, BlockChain& blockchain)
+	Miner::Miner(std::shared_ptr<HttpServer> server, std::vector<int>& peers, BlockChain& blockchain)
 		:
-		server(server),
+		server((server)),
 		peers(peers),
 		blockchain(blockchain)
 	{
 		initConsole();
 		start(server, blockchain, peers);
-		setUpPeer(server, peers, blockchain);
+		setUpPeer(std::move(server), peers, blockchain);
 	}
 
 	void Miner::initConsole()
@@ -212,7 +212,7 @@ namespace Core
 	}
 
 
-	void Miner::setUpPeer(HttpServer* server, std::vector<int>& peers, BlockChain& blockchain)
+	void Miner::setUpPeer(std::shared_ptr<HttpServer> server, std::vector<int>& peers, BlockChain& blockchain)
 	{
 		using json = nlohmann::json;
 		server->resource["^/string$"]["POST"] = [](std::shared_ptr<HttpServer::Response> response, std::shared_ptr<HttpServer::Request> request) {
@@ -333,7 +333,7 @@ namespace Core
 		spdlog::info("Server started at localhost:{0:d}", server->config.port);
 	}
 
-	int Miner::start(HttpServer* server, BlockChain& blockchain, std::vector<int>& peers)
+	int Miner::start(std::shared_ptr<HttpServer> server, BlockChain& blockchain, std::vector<int>& peers)
 	{
 		char in;
 		spdlog::info("Test spdlog");

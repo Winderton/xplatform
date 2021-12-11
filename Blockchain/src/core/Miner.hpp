@@ -46,23 +46,23 @@ namespace Core
 	class Miner
 	{
 	public:
-		HttpServer* server;
+		std::shared_ptr<HttpServer> server;
 		std::vector<int> peers;
 		BlockChain blockchain;
 	public:
-		Miner(HttpServer* server, std::vector<int>& peers, BlockChain& blockchain);
+		Miner(std::shared_ptr<HttpServer> server, std::vector<int>& peers, BlockChain& blockchain);
 
 	public:
+		int start(std::shared_ptr<HttpServer> server, BlockChain& blockchain, std::vector<int>& peers);
+		void setUpPeer(std::shared_ptr<HttpServer> server, std::vector<int>& peers, BlockChain& blockchain);
 		void initConsole();
-		void setUpPeer(HttpServer* server, std::vector<int>& peers, BlockChain& blockchain);
 		bool RedirectConsoleIO();
 		bool ReleaseConsole();
 		void AdjustConsoleBuffer(int16_t minLength);
 		bool CreateNewConsole(int16_t minLength);
 		int getAvilablePort();
-		void writePort(unsigned int port);
 		std::vector<int> readPort(const char* path);
-		int start(HttpServer* server, BlockChain& blockchain, std::vector<int>& peers);
+		void writePort(unsigned int port);
 
 	public:
 		void process_input(HWND handle, std::vector<int>& peers, BlockChain& bc);
