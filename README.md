@@ -38,4 +38,4 @@ _Следующие темы будут варьироваться и менят
 
 
 
-[![DONATE](https://img.shields.io/badge/patreon-tipme-orange.svg)](https://boosty.to/wndtn)
+[![DONATE](https://img.shields.io/badge/boosty-tip-green)](https://boosty.to/wndtn)
