@@ -12,14 +12,16 @@
 - [x] Event System(кроссплатформенно, с glfw + win32)
 - [x] Fullstack Web App(PostgreSQL, Next.js, Node.js(express), Youtube/Github API integrations, Cloud deployment)
  
-_Следующие темы будут варьироваться и меняться в зависимости от вашего желания их увидеть, а от моего - их делать, а предыдущие - будут расширяться и дополняться_
+_Следующие темы будут варьироваться и меняться в зависимости от вашего желания их увидеть, и от моего - их делать, а предыдущие будут расширяться и дополняться_
 - [ ] Renderer(Raytracer/Rasterizer)
 - [ ] Compression(LZ, Huffman)
-- [ ] Custom Data Structures(Dynamic Array, Hashtable, Static Array)
+- [ ] Custom Data Structures(Dynamic Array, Hashtable, Static Array, Tree)
 - [ ] Custom library for heavily used data structores(STL-like)
+- [ ] Thread pool
+- [ ] Exception handling
 - [ ] Allocators(На канале есть часовое видео по разработке malloc, но оно сюда не вписывается, так как слишком абстрактно)
 - [ ] ECS
-- [ ] Interpreter(И вообще, весь тул-чейн, который я бы хотел вам показать. Дебагер, профайлер, Статический анализатор. Скриптовой язык хотя бы для эллементарных задач)
+- [ ] Interpreter(И вообще, весь тул-чейн, который я бы хотел вам показать. Дебагер, профайлер, Статический анализатор... Скриптовой язык хотя бы для эллементарных задач)
 - [ ] Build System(Где будет использоваться наш интерпретатор)
 - [ ] Logging System
 - [ ] Test Framework
