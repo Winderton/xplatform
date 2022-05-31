@@ -23,6 +23,7 @@
     <ProjectGuid>{89A0A41E-2D74-495E-B968-77A52E7B952F}</ProjectGuid>
     <RootNamespace>Blockchain</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>bchain</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

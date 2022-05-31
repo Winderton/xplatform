@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29326.143
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32519.379
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "youtube", "youtube\youtube.vcxproj", "{0E526059-3126-4375-9801-F3FD8478918D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "serialization", "serialization\youtube.vcxproj", "{0E526059-3126-4375-9801-F3FD8478918D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "userland", "userland\userland.vcxproj", "{D378A7AF-E822-4072-8342-0B36370BDDA4}"
 EndProject
@@ -13,6 +13,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "renderer", "renderer\renderer.vcxproj", "{5E80B9EC-6A42-4562-AA45-2D34613E83AD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ide", "ide\ide.vcxproj", "{F9D1520E-360B-4F1A-818B-4918D0453B02}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bchain", "bchain\Blockchain.vcxproj", "{89A0A41E-2D74-495E-B968-77A52E7B952F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,14 @@ Global
 		{F9D1520E-360B-4F1A-818B-4918D0453B02}.Release|x64.Build.0 = Release|x64
 		{F9D1520E-360B-4F1A-818B-4918D0453B02}.Release|x86.ActiveCfg = Release|Win32
 		{F9D1520E-360B-4F1A-818B-4918D0453B02}.Release|x86.Build.0 = Release|Win32
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Debug|x64.ActiveCfg = Debug|x64
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Debug|x64.Build.0 = Debug|x64
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Debug|x86.ActiveCfg = Debug|Win32
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Debug|x86.Build.0 = Debug|Win32
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Release|x64.ActiveCfg = Release|x64
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Release|x64.Build.0 = Release|x64
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Release|x86.ActiveCfg = Release|Win32
+		{89A0A41E-2D74-495E-B968-77A52E7B952F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
