@@ -10,3 +10,12 @@
 [submodule "Blockchain/vendor/libfort"]
 	path = Blockchain/vendor/libfort
 	url = https://github.com/seleznevae/libfort
+[submodule "vendor/glfw"]
+	path = vendor/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "vendor/glm"]
+	path = vendor/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "vendor/glew"]
+	path = vendor/glew
+	url = https://github.com/nigels-com/glew.git
