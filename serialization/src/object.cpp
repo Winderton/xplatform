@@ -1,5 +1,5 @@
-#include "object.h"
-#include "core.h"
+#include "../include/object.h"
+#include "../include/core.h"
 
 
 namespace ObjectModel
@@ -8,7 +8,7 @@ namespace ObjectModel
 	{
 		setName(name);
 		wrapper = static_cast<uint8_t>(Wrapper::OBJECT);
-		size += (sizeof int16_t) * 4;
+		size += (sizeof(int16_t)) * 4;
 	}
 
 	void Object::addEntity(Root* r)

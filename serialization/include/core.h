@@ -9,10 +9,10 @@ namespace Core
 {
 	namespace Util
 	{
-		bool LIB isLittleEndian();
+		bool isLittleEndian();
 		void save(const char*, std::vector<uint8_t>& vector);
-		std::vector<uint8_t> LIB load(const char*);
-		void LIB retriveNsave(ObjectModel::Root* r);
+		std::vector<uint8_t> load(const char*);
+		void retriveNsave(ObjectModel::Root* r);
 
 	}
 
@@ -21,9 +21,9 @@ namespace Core
 	template<typename T>
 	void encode(std::vector<uint8_t>& buffer, int16_t& iterator, T value)
 	{
-		for (unsigned i = 0, j = 0; i < sizeof T; i++)
+		for (unsigned i = 0, j = 0; i < sizeof (T); i++)
 		{
-			buffer[(iterator)++] = (value >> ((sizeof T * 8) - 8) - ((i == 0) ? j : j += 8));
+			buffer[(iterator)++] = (value >> ((sizeof (T) * 8) - 8) - ((i == 0) ? j : j += 8));
 		}
 	}
 
@@ -70,9 +70,9 @@ namespace Core
 		T result = 0;
 
 		
-		for (unsigned i = 0; i < sizeof T; i++)
+		for (unsigned i = 0; i < sizeof(T); i++)
 		{
-			T temp = (T)buffer[it++] << (((sizeof T * 8) - 8) - (i * 8));
+			T temp = (T)buffer[it++] << (((sizeof(T) * 8) - 8) - (i * 8));
 			result = result | temp;
 		}
 

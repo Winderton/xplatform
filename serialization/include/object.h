@@ -1,4 +1,5 @@
 #pragma once
+
 #include <iostream>
 #include "primitive.h"
 #include "array.h"
@@ -6,7 +7,7 @@
 
 namespace ObjectModel
 {
-	class LIB Object : public Root
+	class Object : public Root
 	{
 	public:
 		int16_t primitiveCount = 0, arrayCount = 0, stringCount = 0, objectCount = 0;
@@ -47,7 +48,7 @@ namespace ObjectModel
 			{
 				if (arr.getName() == name)
 				{
-					return  dynamic_cast<Root*>(&arr);
+					return dynamic_cast<Root*>(&arr);
 				}
 			}
 
@@ -69,9 +70,6 @@ namespace ObjectModel
 
 			std::cout << "no as such" << std::endl;
 
-			__asm {
-				int 3
-			}
 			return new Object("SYSTEM:empty");
 
 		}

@@ -8,7 +8,7 @@
 namespace ObjectModel
 {
 
-	class LIB Root
+	class Root
 	{
 	public:
 		uint8_t wrapper;

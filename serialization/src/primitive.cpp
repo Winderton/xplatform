@@ -1,5 +1,5 @@
-#include "primitive.h"
-#include "core.h"
+#include "../include/primitive.h"
+#include "../include/core.h"
 #include <stdint.h>
 
 namespace ObjectModel

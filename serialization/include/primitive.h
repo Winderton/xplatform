@@ -1,10 +1,12 @@
 #pragma once
 #include "root.h"
 #include <memory>
+#include "core.h"
+
 
 namespace ObjectModel
 {
-	class LIB Primitive : public Root
+	class Primitive : public Root
 	{
 	private:
 		uint8_t type = 0;
@@ -22,7 +24,7 @@ namespace ObjectModel
 			p->data = new std::vector<uint8_t>(sizeof value);
 			p->size += (int32_t)p->data->size();
 			int16_t iterator = 0;
-			Core::template encode<T>(*p->data, iterator, value);
+			Core::encode<T>(*p->data, iterator, value);
 
 
 			return p;

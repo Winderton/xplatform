@@ -40,6 +40,7 @@ namespace ObjectModel
 		case Type::FLOAT: return sizeof(float); break;
 		case Type::DOUBLE: return sizeof(double); break;
 		}
+		return 0;
 	}
 
 

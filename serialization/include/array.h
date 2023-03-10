@@ -1,11 +1,11 @@
 #pragma once
 #include "root.h"
 #include <memory>
-
+#include "core.h"
 
 namespace ObjectModel
 {
-	class LIB Array : public Root
+	class Array : public Root
 	{
 	private:
 		uint8_t type = 0;
@@ -23,10 +23,9 @@ namespace ObjectModel
 			arr->type = static_cast<uint8_t>(type);
 			arr->count = (int32_t)value.size();
 			arr->data = new std::vector<uint8_t>(sizeof(T) * arr->count);
-			arr->size += (int32_t)(value.size()) * sizeof T;
+			arr->size += (int32_t)(value.size()) * sizeof(T);
 			int16_t iterator = 0;
-			Core::template encode<T>(*arr->data, iterator, value);
-
+			Core::encode<T>(*arr->data, iterator, value);
 
 			return arr;
 		}
@@ -43,7 +42,7 @@ namespace ObjectModel
 			str->data = new std::vector<uint8_t>(value.size());
 			str->size += (int32_t)value.size();
 			int16_t iterator = 0;
-			Core::template encode<T>(*str->data, iterator, value);
+			Core::encode<T>(*str->data, iterator, value);
 
 
 			return str;
