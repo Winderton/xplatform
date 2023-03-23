@@ -35,7 +35,7 @@ namespace TestFrame
 
 int main(int argc, char** argv)
 {
-	assert(Core::Util::isLittleEndian());
+	assert(Core::Util::isLittleEndian(5));
 
 	TestFrame::testPack();
 	TestFrame::testUnpack();

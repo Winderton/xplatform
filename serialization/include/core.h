@@ -9,7 +9,7 @@ namespace Core
 {
 	namespace Util
 	{
-		bool isLittleEndian();
+		bool isLittleEndian(uint8_t);
 		void save(const char*, std::vector<uint8_t>& vector);
 		std::vector<uint8_t> load(const char*);
 		void retriveNsave(ObjectModel::Root* r);

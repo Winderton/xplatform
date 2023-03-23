@@ -34,6 +34,7 @@ namespace ObjectModel
 		static Primitive unpack(const std::vector<uint8_t>&, int16_t&);
 
 		std::vector<uint8_t> getData();
+		std::vector<uint8_t>* getPtrData() {return data;}
 
 	};
 

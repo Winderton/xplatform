@@ -7,10 +7,9 @@ namespace Core
 	namespace Util
 	{
 
-		bool isLittleEndian()
+		bool isLittleEndian(uint8_t a)
 		{
 			// 0x00 0x00 0x00 0b0000 0101
-			uint8_t a = 5;
 			std::string result = std::bitset<8>(a).to_string();
 			return (result.back() == '1') ? true : false;
 		}

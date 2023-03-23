@@ -20,7 +20,10 @@ namespace ObjectModel
 		void addEntity(Root*);
 		void pack(std::vector<uint8_t>&, int16_t&);
 		static Object unpack(std::vector<uint8_t>&, int16_t&);
-
+		inline int16_t getPrimitiveCount() {return primitiveCount;}
+		inline int16_t getArrayCount() {return arrayCount;}
+		inline int16_t getStringCount() {return stringCount;}
+		inline int16_t getObjectCount() {return objectCount;}
 
 
 		Primitive findPrimitiveByName(std::string name)
