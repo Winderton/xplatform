@@ -26,7 +26,6 @@ namespace ObjectModel
 			int16_t iterator = 0;
 			Core::encode<T>(*p->data, iterator, value);
 
-
 			return p;
 		}
 
