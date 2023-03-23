@@ -9,7 +9,7 @@ namespace ObjectModel
 	class Primitive : public Root
 	{
 	private:
-		uint8_t type = 0;
+		uint16_t type = 0;
 		std::vector<uint8_t>* data = nullptr;
 	private:
 		Primitive();
