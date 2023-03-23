@@ -1,3 +1,5 @@
+![example workflow](https://github.com/Winderton/xplatform/actions/workflows/cmake.yml/badge.svg)
+
 Хочу начать как @pervognsen, процитируя Фейнмена:
 >"_Что я не могу создать - я не понимаю_".
 
@@ -41,3 +43,4 @@ _Следующие темы будут варьироваться и менят
 
 
 [![DONATE](https://img.shields.io/badge/boosty-tip-green)](https://boosty.to/wndtn)
+
