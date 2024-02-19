@@ -32,7 +32,7 @@ namespace ObjectModel
 
 
 		template<typename T>
-		static std::unique_ptr<Array> createString(std::string name, Type type, T value)
+		static std::unique_ptr<Array> createString(const std::string& name, Type type, T value)
 		{
 			std::unique_ptr<Array>str = std::make_unique<Array>();
 			str->setName(name);
