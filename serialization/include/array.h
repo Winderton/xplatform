@@ -15,7 +15,7 @@ namespace ObjectModel
 		Array();
 	public:
 		template<typename T>
-		static std::unique_ptr<Array> createArray(std::string name, Type type, std::vector<T> value)
+		static std::unique_ptr<Array> createArray(const std::string& name, Type type, std::vector<T> value)
 		{
 			std::unique_ptr<Array> arr = std::make_unique<Array>();
 			arr->setName(name);
